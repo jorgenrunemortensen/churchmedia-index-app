@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: indexing-app
+
+  groovy:
+    template:
+      enabled: false
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: secret
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+
+logging:
+  level:
+    root: INFO
+    dk.runerne: DEBUG
+
+server:
+  port: 8086
+
+api:
+  base-path: /api/v1
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
