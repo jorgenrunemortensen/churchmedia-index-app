@@ -16,6 +16,23 @@ spring:
     template:
       mandatory: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          content-app:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: indexing-app
+            client-secret: hFL6Bvdg4ZQBSYGXrtPO0veebUKcGpHd
+        provider:
+          keycloak:
+            token-uri: http://localhost:8080/realms/Alive/protocol/openid-connect/token
+
+content-app:
+  api:
+    base-url: http://localhost:8081
+
 logging:
   level:
     root: INFO

@@ -1,9 +1,10 @@
 plugins {
 	id 'java'
 	id 'groovy'
-	id 'org.springframework.boot' version '3.3.0'
+	id 'org.springframework.boot' version '3.3.11'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'maven-publish'
+	id 'org.openapi.generator' version '7.19.0'
 }
 
 group = 'dk.runerne'
@@ -21,6 +22,37 @@ repositories {
 	maven { url 'https://repo.grails.org/grails/core' }
 }
 
+def generatedOpenApiDir = layout.buildDirectory.dir("generated/openapi").get().asFile
+
+openApiGenerate {
+	generatorName = 'java'
+	inputSpec = "$projectDir/src/main/resources/openapi/content-api.yaml"
+	outputDir = generatedOpenApiDir.absolutePath
+
+	apiPackage = 'dk.runerne.indexing.contentclient.api'
+	modelPackage = 'dk.runerne.indexing.contentclient.model'
+	invokerPackage = 'dk.runerne.indexing.contentclient.invoker'
+
+	library = 'resttemplate'
+
+	configOptions = [
+			dateLibrary            : 'java8',
+			useJakartaEe           : 'true',
+			serializationLibrary   : 'jackson',
+			sourceFolder           : 'src/main/java',
+			hideGenerationTimestamp: 'true',
+			generateClientAsBean   : 'true'
+	]
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir "${generatedOpenApiDir}/src/main/java"
+		}
+	}
+}
+
 dependencies {
 	implementation('dk.runerne:common')
 
@@ -33,6 +65,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'io.swagger.core.v3:swagger-annotations-jakarta:2.2.36'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.apache.commons:commons-lang3:3.18.0'
@@ -42,6 +75,7 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
 
 	// Jakarta
+	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
 	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
 	// Spring Security
@@ -57,28 +91,31 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.32'
 	annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
-	testImplementation platform('org.spockframework:spock-bom:2.3-groovy-3.0')
-	testImplementation 'org.spockframework:spock-spring:2.3-groovy-3.0'
+	implementation 'org.apache.groovy:groovy-json:4.0.21'
+
+	testImplementation platform('org.spockframework:spock-bom:2.3-groovy-4.0')
 	testImplementation 'org.spockframework:spock-core'
 	testImplementation 'org.spockframework:spock-spring'
 
 	// Swagger
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
-
-	implementation 'org.codehaus.groovy:groovy-json:3.0.21'
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.8'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
+tasks.named('compileJava') {
+	dependsOn tasks.named('openApiGenerate')
+}
+
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'
 }
 tasks.withType(Javadoc).configureEach {
-	options.encoding = 'UTF-8'      // læsning af kildetekst
-	options.docEncoding = 'UTF-8'   // encoding af genereret HTML
-	options.charSet = 'UTF-8'       // <meta charset> i HTML
+	options.encoding = 'UTF-8'
+	options.docEncoding = 'UTF-8'
+	options.charSet = 'UTF-8'
 	options.addBooleanOption('html5', true)
 }
 

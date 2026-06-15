@@ -1,0 +1,1272 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8081
+  description: Generated server url
+tags:
+- name: Artist Management
+  description: This controller provides the endpoints to access the artist entities.
+    It supports the CRUD-pattern
+- name: Role Management
+  description: This controller provides the endpoints to access the role entities.
+    It supports the CRUD-pattern
+- name: Feature Controller
+  description: "This controller is meant to maintains the features that the client\
+    \ should provide to the current user. At the moment, the only an endpoint supporting\
+    \ the available features to current user is provided."
+- name: Label Management
+  description: This controller provides the endpoints to access the label entities.
+    It supports the CRUD-pattern
+- name: Media Management
+  description: This controller provides the endpoints to access the media entities.
+    It supports the CRUD-pattern
+- name: Media Artist Role Management
+  description: This controller provides the endpoints to access the MediaArtistRole
+    entities. It supports the CRUD-pattern
+- name: Media Group Management
+  description: This controller provides the endpoints to access the MediaGroup entities.
+    It supports the CRUD-pattern
+paths:
+  /api/v1/roles/{id}/{version}:
+    put:
+      tags:
+      - Role Management
+      summary: Update a role
+      description: Updates an existing role in the system.
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the role entity to update.<br/>The string
+          must be a valid UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: The current version of the role entity.<br/>Used for optimistic
+          locking.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Role"
+  /api/v1/medias/{id}/{version}:
+    put:
+      tags:
+      - Media Management
+      summary: Updates a media entity
+      description: Updates an existing media entity in the system.
+      operationId: update_1
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the media entity to update.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: The current version of the media entity. Used for optimistic
+          locking.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Media"
+  /api/v1/media-groups/{id}/{version}:
+    put:
+      tags:
+      - Media Group Management
+      operationId: update_2
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the Media Group entity to update.<br/>The
+          string must be a valid UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: The current version of the role entity.<br/>Used for optimistic
+          locking.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaGroupCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MediaGroup"
+  /api/v1/media-artist-roles/{id}/{version}:
+    put:
+      tags:
+      - Media Artist Role Management
+      summary: Update a MediaArtistRole entity
+      description: Updates an existing MediaArtistRole entity in the system.
+      operationId: update_3
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the MediaArtistRole entity to update.<br/>The
+          string must be a valid UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: The current version of the role entity.<br/>Used for optimistic
+          locking.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaArtistRoleCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MediaArtistRole"
+  /api/v1/labels/{id}/{version}:
+    put:
+      tags:
+      - Label Management
+      summary: Updates a label entity
+      description: Updates an existing label in the system.
+      operationId: update_4
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the label entity to update.<br/>The
+          string must be a valid UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: The current version of the label entity.<br/>Used for optimistic
+          locking.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LabelCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Label"
+  /api/v1/artists/{id}/{version}:
+    put:
+      tags:
+      - Artist Management
+      summary: Updates an artist
+      description: Updates an existing artist in the system.
+      operationId: update_5
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the artist entity to update.<br/>
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: The current version of the artist entity to update.<br/>Used
+          for optimistic locking.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArtistCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Artist"
+  /api/v1/roles:
+    get:
+      tags:
+      - Role Management
+      summary: List all roles
+      description: Lists all roles defined in the system.
+      operationId: list
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      - name: arg2
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Sort"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CursorPagedResponseRole"
+    post:
+      tags:
+      - Role Management
+      summary: Create a new role
+      description: Adds a new role to the system.
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Role"
+  /api/v1/medias:
+    get:
+      tags:
+      - Media Management
+      summary: List all media entities
+      description: Returns a paginated list of all media entities.
+      operationId: list_1
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      - name: arg2
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Sort"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CursorPagedResponseMedia"
+    post:
+      tags:
+      - Media Management
+      summary: Creates a new media entity
+      description: Adds a new media entity to the system.
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Media"
+  /api/v1/media-groups:
+    get:
+      tags:
+      - Media Group Management
+      operationId: list_2
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      - name: arg2
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Sort"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CursorPagedResponseMediaGroup"
+    post:
+      tags:
+      - Media Group Management
+      operationId: create_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaGroupCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MediaGroup"
+  /api/v1/media-artist-roles:
+    get:
+      tags:
+      - Media Artist Role Management
+      summary: List all MediaArtistRole entities
+      description: Lists all MediaArtistRole-entities defined in the system.
+      operationId: list_3
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      - name: arg2
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Sort"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CursorPagedResponseMediaArtistRole"
+    post:
+      tags:
+      - Media Artist Role Management
+      summary: Create a new MediaArtistRole entity
+      description: Adds a new MediaArtistRole entity to the system.
+      operationId: create_3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaArtistRoleCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MediaArtistRole"
+  /api/v1/labels:
+    get:
+      tags:
+      - Label Management
+      summary: List all labels
+      description: Lists all labels defined in the system.
+      operationId: list_4
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      - name: arg2
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Sort"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CursorPagedResponseLabel"
+    post:
+      tags:
+      - Label Management
+      summary: Creates a new label entity
+      description: Adds a new label to the system.
+      operationId: create_4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LabelCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Label"
+  /api/v1/artists:
+    get:
+      tags:
+      - Artist Management
+      summary: List all artists
+      description: Lists all artists defined in the system.
+      operationId: list_5
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      - name: arg2
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Sort"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CursorPagedResponseArtist"
+    post:
+      tags:
+      - Artist Management
+      summary: Create a new artist
+      description: Adds a new artist to the system.
+      operationId: create_5
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArtistCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Artist"
+  /api/v1/roles/{id}:
+    get:
+      tags:
+      - Role Management
+      summary: Get a role by unique ID
+      description: Every role entity has a unique ID. Use this endpoint to the entity
+        details from the unique ID.
+      operationId: getById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Role"
+    delete:
+      tags:
+      - Role Management
+      summary: Delete a role
+      description: Deletes an existing role from the system.
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the role entity to delete.<br/>The string
+          must be a valid UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+  /api/v1/roles/find-by-ids:
+    get:
+      tags:
+      - Role Management
+      summary: Find roles
+      description: Find a set of roles by their identifiers.
+      operationId: findByIds
+      parameters:
+      - name: arg0
+        in: query
+        description: The unique identifiers of the role entities to retrieve.<br/>The
+          argument must be a set of valid UUIDs.
+        required: true
+        schema:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: "#/components/schemas/Role"
+  /api/v1/medias/{id}:
+    get:
+      tags:
+      - Media Management
+      summary: Gets a media entity by ID
+      description: Every media entity has a unique ID. Use this endpoint to retrieve
+        the entity details by its unique ID.
+      operationId: getById_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Media"
+    delete:
+      tags:
+      - Media Management
+      summary: Deletes a media entity
+      description: Deletes an existing media entity from the system.
+      operationId: delete_1
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the media entity to delete.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+  /api/v1/media-groups/{id}:
+    get:
+      tags:
+      - Media Group Management
+      operationId: getById_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MediaGroup"
+    delete:
+      tags:
+      - Media Group Management
+      operationId: delete_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+  /api/v1/media-artist-roles/{id}:
+    get:
+      tags:
+      - Media Artist Role Management
+      summary: Gets a MediaArtistRole by unique ID
+      description: Every MediaArtistRole entity has a unique ID. Use this endpoint
+        to the entity details from the unique ID.
+      operationId: getById_3
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MediaArtistRole"
+    delete:
+      tags:
+      - Media Artist Role Management
+      summary: Delete a MediaArtistRole entity
+      description: Deletes an existing MediaArtistRole entity from the system.
+      operationId: delete_3
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the MediaArtistRole entity to delete.<br/>The
+          string must be a valid UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+  /api/v1/labels/{id}:
+    get:
+      tags:
+      - Label Management
+      summary: Gets a label by unique ID
+      description: Every label entity has a unique ID. Use this endpoint to the entity
+        details from the unique ID.
+      operationId: getById_4
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Label"
+    delete:
+      tags:
+      - Label Management
+      summary: Deletes a label entity
+      description: Deletes an existing label entity from the system.
+      operationId: delete_4
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the label entity to delete.<br/>The
+          string must be a valid UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+  /api/v1/feature/my:
+    get:
+      tags:
+      - Feature Controller
+      summary: Get information of which features that the front end should make available
+        to the current user
+      description: "<p>For each feature presented in the response, the feature should\
+        \ be visible. To each feature an operation is defined. I.e. NONE, VIEW or\
+        \ EDIT.</p><ul><li>NONE should not provide any access to the feature, i.e.\
+        \ no data should be displayed neither it should be possible to modify any\
+        \ data.</li><li>VIEW should provide access to the feature, i.e. data should\
+        \ be displayed but it should not be possible for the user to modify any data.</li><li>EDIT\
+        \ should provide full access to the feature, i.e. data should be displayed\
+        \ and it should be possible for the user to modify the data.</li></ul>"
+      operationId: my
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: "#/components/schemas/FeatureOperation"
+  /api/v1/demo:
+    get:
+      tags:
+      - demo-controller
+      operationId: hello
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1/demo/hello-2:
+    get:
+      tags:
+      - demo-controller
+      operationId: hello2
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1/artists/{id}:
+    get:
+      tags:
+      - Artist Management
+      summary: Get a artist by unique ID
+      description: Every artist entity has a unique ID. Use this endpoint to the entity
+        details from the unique ID.
+      operationId: getById_5
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Artist"
+    delete:
+      tags:
+      - Artist Management
+      summary: Delete an artist
+      description: Deletes an existing artist from the system.
+      operationId: delete_5
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the artist entity to delete.<br/>The
+          string must be a valid UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    RoleCommand:
+      type: object
+      properties:
+        name:
+          type: string
+        authority:
+          type: string
+        description:
+          type: string
+    Role:
+      required:
+      - authority
+      - id
+      - name
+      - version
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          format: int64
+        name:
+          type: string
+        authority:
+          type: string
+        description:
+          type: string
+    MediaArtistDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        artistId:
+          type: string
+          format: uuid
+        mediaArtistRoleId:
+          type: string
+          format: uuid
+    MediaCommand:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+        publishedBy:
+          type: string
+        recordedAt:
+          type: string
+          format: date-time
+        mediaFile:
+          $ref: "#/components/schemas/MediaFile"
+        mediaArtistDTOs:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: "#/components/schemas/MediaArtistDTO"
+        mediaGroupIds:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+        labelIds:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    MediaFile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          format: int64
+        storage:
+          type: string
+          enum:
+          - FILE_SERVER
+        fileId:
+          type: string
+          format: uuid
+        filename:
+          type: string
+        mimeType:
+          type: string
+    Artist:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the artist entity.
+          format: uuid
+        version:
+          type: integer
+          description: The version of the artist entity for optimistic locking.
+          format: int64
+        createdAt:
+          type: string
+          description: The timestamp when the artist entity was created.
+          format: date-time
+        createdBy:
+          type: string
+          description: The username of the user who created the artist entity.
+        updatedAt:
+          type: string
+          description: The timestamp when the artist entity was last updated.
+          format: date-time
+        updatedBy:
+          type: string
+          description: The username of the user who last updated the artist entity.
+        name:
+          type: string
+          description: The name of the artist.
+        description:
+          type: string
+          description: The description of the artist.
+      description: Data transfer object representing an artist entity.
+    Label:
+      required:
+      - createdAt
+      - createdBy
+      - id
+      - name
+      - updatedAt
+      - updatedBy
+      - version
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Media:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+        publishedBy:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        recordedAt:
+          type: string
+          format: date-time
+        mediaFile:
+          $ref: "#/components/schemas/MediaFile"
+        mediaArtists:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: "#/components/schemas/MediaArtist"
+        mediaGroups:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: "#/components/schemas/MediaGroup"
+        labels:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: "#/components/schemas/Label"
+    MediaArtist:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        artist:
+          $ref: "#/components/schemas/Artist"
+        mediaArtistRole:
+          $ref: "#/components/schemas/MediaArtistRole"
+    MediaArtistRole:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    MediaGroup:
+      required:
+      - createdAt
+      - id
+      - name
+      - updatedAt
+      - version
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        roles:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: "#/components/schemas/Role"
+    MediaGroupCommand:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        roleIds:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    MediaArtistRoleCommand:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    LabelCommand:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    ArtistCommand:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The new name of the artist or the name of the artist who is
+            about to be created.
+        description:
+          type: string
+          description: The new description of the artist or the description of the
+            artist who is about to be created.
+      description: Command object for creating or updating an artist entity.
+    Sort:
+      type: object
+      properties:
+        sort:
+          type: array
+          items:
+            type: string
+    CursorPagedResponseRole:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Role"
+        nextCursor:
+          type: string
+        limit:
+          type: integer
+          format: int32
+    CursorPagedResponseMedia:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Media"
+        nextCursor:
+          type: string
+        limit:
+          type: integer
+          format: int32
+    CursorPagedResponseMediaGroup:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MediaGroup"
+        nextCursor:
+          type: string
+        limit:
+          type: integer
+          format: int32
+    CursorPagedResponseMediaArtistRole:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MediaArtistRole"
+        nextCursor:
+          type: string
+        limit:
+          type: integer
+          format: int32
+    CursorPagedResponseLabel:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Label"
+        nextCursor:
+          type: string
+        limit:
+          type: integer
+          format: int32
+    FeatureOperation:
+      type: object
+      properties:
+        feature:
+          type: string
+          enum:
+          - ROLE
+          - MEDIA_GROUP
+          - MEDIA
+          - MEDIA_ARTIST_ROLE
+          - ARTIST
+          - LABEL
+        operation:
+          type: string
+          enum:
+          - NONE
+          - VIEW
+          - EDIT
+    CursorPagedResponseArtist:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Artist"
+        nextCursor:
+          type: string
+        limit:
+          type: integer
+          format: int32
