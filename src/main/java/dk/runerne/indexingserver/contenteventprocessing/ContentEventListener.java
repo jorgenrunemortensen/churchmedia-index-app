@@ -4,12 +4,13 @@ import dk.runerne.indexingserver.synchronization.ArtistSynchronizationService;
 import dk.runerne.indexingserver.synchronization.LabelSynchronizationService;
 import dk.runerne.indexingserver.synchronization.MediaArtistRoleSynchronizationService;
 import dk.runerne.indexingserver.synchronization.MediaGroupSynchronizationService;
+import dk.runerne.indexingserver.synchronization.MediaSynchronizationService;
 import dk.runerne.indexingserver.synchronization.RoleSynchronizationService;
 import dk.runerne.indexingserver.synchronization.Synchronizer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
-import dk.runerne.indexingserver.synchronization.MediaSynchronizationService;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Map;
 
@@ -45,11 +46,15 @@ public class ContentEventListener {
             return;
         }
 
-        switch(event.eventType()) {
-            case CREATED -> synchronizer.synchronizeCreated(event.id());
-            case UPDATED -> synchronizer.synchronizeUpdated(event.id());
-            case DELETED -> synchronizer.synchronizeDeleted(event.id());
-            default -> log.warn("Unsupported event type: " + event.eventType());
+        try {
+            switch(event.eventType()) {
+                case CREATED -> synchronizer.synchronizeCreated(event.id());
+                case UPDATED -> synchronizer.synchronizeUpdated(event.id());
+                case DELETED -> synchronizer.synchronizeDeleted(event.id());
+                default -> log.warn("Unsupported event type: " + event.eventType());
+            }
+        } catch (HttpClientErrorException.Conflict _) {
+            log.warn("Entity no longer exists in content-app, skipping event [{} {} {}]", event.eventType(), event.aggregateType(), event.id());
         }
     }
 
