@@ -94,9 +94,13 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.36'
 	annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
+	// MapStruct — annotation processor must be declared after Lombok so Lombok-generated constructors are available
+	implementation 'org.mapstruct:mapstruct:1.6.3'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+
 	implementation 'org.apache.groovy:groovy-json:4.0.21'
 
-	testImplementation platform('org.spockframework:spock-bom:2.3-groovy-4.0')
+	testImplementation platform('org.spockframework:spock-bom:2.4-groovy-5.0')
 	testImplementation 'org.spockframework:spock-core'
 	testImplementation 'org.spockframework:spock-spring'
 
