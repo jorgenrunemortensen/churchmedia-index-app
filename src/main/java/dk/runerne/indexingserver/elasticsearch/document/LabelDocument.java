@@ -11,9 +11,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public record LabelDocument(
     @Field(type = FieldType.Keyword) String id,
     @Field(type = FieldType.Long) Long version,
-    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_fraction) OffsetDateTime createdAt,
+    @Field(type = FieldType.Date, format = DateFormat.date_time) OffsetDateTime createdAt,
     @Field(type = FieldType.Keyword) String createdBy,
-    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_fraction) OffsetDateTime updatedAt,
+    @Field(type = FieldType.Date, format = DateFormat.date_time) OffsetDateTime updatedAt,
     @Field(type = FieldType.Keyword) String updatedBy,
     @Field(type = FieldType.Text) String name,
     @Field(type = FieldType.Text) String description

@@ -10,6 +10,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,6 +39,7 @@ public class MediaIndexAdapter implements MediaIndexPort {
     public List<UUID> findMediaIdsByField(String fieldPath, UUID entityId) {
         final CriteriaQuery query = new CriteriaQuery(Criteria.where(fieldPath).is(entityId.toString()));
         query.setMaxResults(MAX_SEARCH_RESULTS);
+        query.addSourceFilter(FetchSourceFilter.of(builder -> builder.withFetchSource(false)));
         final SearchHits<MediaIndexDocument> hits = elasticsearchOperations.search(query, MediaIndexDocument.class);
         if (hits.getTotalHits() > MAX_SEARCH_RESULTS) {
             log.warn("Found {} media documents referencing {} at field '{}' — only the first {} will be reindexed",

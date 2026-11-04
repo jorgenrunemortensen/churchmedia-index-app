@@ -58,7 +58,7 @@ class MediaIndexAdapterSpec extends Specification {
         List<UUID> result = adapter.findMediaIdsByField("labels.id", entityId)
 
         then:
-        1 * elasticsearchOperations.search(_ as CriteriaQuery, MediaIndexDocument) >> searchHits
+        1 * elasticsearchOperations.search({ CriteriaQuery query -> query.sourceFilter.fetchSource() == false }, MediaIndexDocument) >> searchHits
         result == [mediaId1, mediaId2]
     }
 
