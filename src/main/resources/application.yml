@@ -2,6 +2,10 @@ spring:
   application:
     name: indexing-app
 
+  # Secrets come from environment variables, or from a local, uncommitted .env file (see .env.example)
+  config:
+    import: optional:file:.env[.properties]
+
   groovy:
     template:
       enabled: false
@@ -12,8 +16,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: admin
-    password: secret
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
     publisher-confirm-type: correlated
     publisher-returns: true
     template:
@@ -35,7 +39,7 @@ spring:
             provider: keycloak
             authorization-grant-type: client_credentials
             client-id: indexing-app
-            client-secret: hFL6Bvdg4ZQBSYGXrtPO0veebUKcGpHd
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
         provider:
           keycloak:
             token-uri: http://localhost:8080/realms/Alive/protocol/openid-connect/token
